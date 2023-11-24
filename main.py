@@ -53,38 +53,7 @@ def extract_json_from_text(text):
     # Return None if no valid JSON was found
     return None
 
-def rewrite_as_probe(text, api_key, api_base,  model="meta-llama/Llama-2-70b-chat-hf"):
-    import openai
-    openai.api_key = api_key
-    openai.api_base = api_base
-
-    probe_system = open('prompts/probe-voice-system.txt').read()
-    probe_rewrite = open('prompts/probe-voice-rewrite.txt').read()
-
-    PROMPT = probe_rewrite.format(text=text)
-
-    tries = 0
-    while tries < 3:
-        try:
-            messages=[
-                {"role": "system", "content": f'{probe_system}'},
-                {"role": "user", "content": PROMPT}
-            ]
-            chat_completion = openai.ChatCompletion.create(
-                model=model,
-                messages=messages,
-                stream=False,
-                max_tokens=2500,
-                temperature=0.3,
-            )
-
-            output = chat_completion.choices[0].message.content
-            return output
-        except Exception as e:
-            print(e)
-            tries += 1
-
-def split_documents(documents, file_name_list, max_chunk_size=2000):
+def split_documents(documents):
     """
     Split a list of documents into chunks of sentences.
     Each chunk comprises of sentences and the total character count is close to 'max_chunk_size'.
@@ -106,7 +75,24 @@ def split_documents(documents, file_name_list, max_chunk_size=2000):
     docs = [d.page_content for d in docs]
     return docs
 
+def tof_first_thought(query, model="gpt-3.5-turbo", max_tokens=2000, temperature=0.3):
+    PROMPT = \
+f"""Your task is to logically reason about the problem below.
+
+{query}
+
+What is the first step in solving this? only specify the first step/thought:"""
+    messages=[
+        llm_message("system", "You are an assistant."),
+        llm_message("user", PROMPT),
+    ]
+    output = llm_chat(messages, model=MODEL_MISTRAL, max_tokens=max_tokens, temperature=temperature)
+    return output
+
 def main():
+
+    print(tof_first_thought("Sally has 3 brothers. Each of her brothers have 2 sisters each. How many sisters does Sally have?"))
+    return
     messages=[
         llm_message("system", 'You are an Assistant.'),
     ]
