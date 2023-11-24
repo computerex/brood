@@ -10,11 +10,10 @@ def load_keys():
     return deepinfra_key, deepinfra_base, openai_key, openai_base
 
 def llm_chat(messages, model, max_tokens=2500, temperature=0.3):
-    deepinfra_key, deepinfra_base, openai_key, openai_base = load_keys()
+    deepinfra_key, deepinfra_base, openai_key, _ = load_keys()
     import openai
     if model.startswith("gpt"):
         openai.api_key = openai_key
-        openai.api_base = openai_base
     else:
         openai.api_key = deepinfra_key
         openai.api_base = deepinfra_base

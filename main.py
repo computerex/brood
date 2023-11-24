@@ -107,33 +107,18 @@ def split_documents(documents, file_name_list, max_chunk_size=2000):
     return docs
 
 def main():
-    print(llm_chat([
-        {"role": "system", "content": "You are an AI Assistant."},
-        {"role": "user", "content": "Briefly explain who was gandhi?"},
-    ], 'gpt-3.5-turbo'))
-
-    import openai
-    openai.api_key = deepinfra_key
-    openai.api_base = deepinfra_base
-
-    probe_system = 'You are an Assistant.'
-    PROMPT = 'who is gandhi?'
-    MODEL = 'jondurbin/airoboros-l2-70b-gpt4-1.4.1'
     messages=[
-        llm_message("system", probe_system),
-        #{"role": "user", "content": f'.'},
+        llm_message("system", 'You are an Assistant.'),
     ]
+    airboros = 'jondurbin/airoboros-l2-70b-gpt4-1.4.1'
+    llama = 'meta-llama/Llama-2-70b-chat-hf'
+    mistral = 'mistralai/Mistral-7B-Instruct-v0.1'
+    gpt35turbo = 'gpt-3.5-turbo'
+    gpt4turbo = 'gpt-4-1106-preview'
 
     while True:
         messages.append({"role": "user", "content": input("User: ")})
-        chat_completion = openai.ChatCompletion.create(
-            model=MODEL,
-            messages=messages,
-            stream=False,
-            max_tokens=2500,
-            temperature=0.8,
-        )
-        output = chat_completion.choices[0].message.content
+        output = llm_chat(messages, model=gpt4turbo, max_tokens=2000)
         print('AI: ' + output)
         messages.append({"role": "assistant", "content": output})
     pass
