@@ -1,5 +1,11 @@
 import json
 
+MODEL_AIRBOROS = 'jondurbin/airoboros-l2-70b-gpt4-1.4.1'
+MODEL_LLAMA = 'meta-llama/Llama-2-70b-chat-hf'
+MODEL_MISTRAL = 'mistralai/Mistral-7B-Instruct-v0.1'
+MODEL_GPT35TURBO = 'gpt-3.5-turbo'
+MODEL_GPT4TURBO = 'gpt-4-1106-preview'
+
 def load_keys():
     deepinfra_key  = json.loads(open('.env.json').read())['DEEP_INFRA_API_KEY']
     deepinfra_base = "https://api.deepinfra.com/v1/openai"

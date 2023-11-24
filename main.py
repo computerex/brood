@@ -18,7 +18,7 @@ import nltk
 from nltk.tokenize import sent_tokenize
 from flask import Flask, request, jsonify
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from llm import llm_chat, message as llm_message
+from llm import llm_chat, message as llm_message, MODEL_GPT35TURBO, MODEL_GPT4TURBO, MODEL_LLAMA, MODEL_MISTRAL, MODEL_AIRBOROS
 
 #cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
 #mpnet = SentenceTransformer('sentence-transformers/all-mpnet-base-v2')
@@ -110,15 +110,10 @@ def main():
     messages=[
         llm_message("system", 'You are an Assistant.'),
     ]
-    airboros = 'jondurbin/airoboros-l2-70b-gpt4-1.4.1'
-    llama = 'meta-llama/Llama-2-70b-chat-hf'
-    mistral = 'mistralai/Mistral-7B-Instruct-v0.1'
-    gpt35turbo = 'gpt-3.5-turbo'
-    gpt4turbo = 'gpt-4-1106-preview'
-
+    
     while True:
         messages.append({"role": "user", "content": input("User: ")})
-        output = llm_chat(messages, model=gpt4turbo, max_tokens=2000)
+        output = llm_chat(messages, model=MODEL_GPT4TURBO, max_tokens=2000)
         print('AI: ' + output)
         messages.append({"role": "assistant", "content": output})
     pass
