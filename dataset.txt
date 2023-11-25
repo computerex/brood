@@ -1,0 +1,13 @@
+Sally has 3 brothers. Each of her brothers have 2 sisters. How many sisters does Sally have?
+
+John has 4 sisters. Each sister has one brother. How many brothers do the sisters collectively have?
+
+David is the brother of Amy. Amy has 2 brothers and 1 sister. How many children do David's parents have in total?
+
+Michael is in a family photo with his 2 brothers and 1 sister. Each sibling has the same number of brothers and sisters as Michael. How many children are in the family?
+
+At Lisa's birthday party, there are 4 girls and each girl has 3 brothers. Every brother has the same number of sisters. How many boys are at the party?
+
+Emma has 2 sisters and each sister has exactly 1 brother. How many brothers does Emma have?
+
+In a room, there are four friends, including Maria. If each friend says they have three friends, how many friends are in the room in total?
