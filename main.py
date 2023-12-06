@@ -18,9 +18,13 @@ import nltk
 from nltk.tokenize import sent_tokenize
 from flask import Flask, request, jsonify
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+<<<<<<< HEAD
 from llm import llm_chat, message as llm_message
 from knowledge_sources.google import search, search_google
 from utils.compression import compress_against_query
+=======
+from llm import llm_chat, message as llm_message, MODEL_GPT35TURBO, MODEL_GPT4TURBO, MODEL_LLAMA, MODEL_MISTRAL, MODEL_AIRBOROS
+>>>>>>> d5850ea5335f095d6ac3c5b18b993c15469d5dad
 
 #cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
 #mpnet = SentenceTransformer('sentence-transformers/all-mpnet-base-v2')
@@ -55,38 +59,7 @@ def extract_json_from_text(text):
     # Return None if no valid JSON was found
     return None
 
-def rewrite_as_probe(text, api_key, api_base,  model="meta-llama/Llama-2-70b-chat-hf"):
-    import openai
-    openai.api_key = api_key
-    openai.api_base = api_base
-
-    probe_system = open('prompts/probe-voice-system.txt').read()
-    probe_rewrite = open('prompts/probe-voice-rewrite.txt').read()
-
-    PROMPT = probe_rewrite.format(text=text)
-
-    tries = 0
-    while tries < 3:
-        try:
-            messages=[
-                {"role": "system", "content": f'{probe_system}'},
-                {"role": "user", "content": PROMPT}
-            ]
-            chat_completion = openai.ChatCompletion.create(
-                model=model,
-                messages=messages,
-                stream=False,
-                max_tokens=2500,
-                temperature=0.3,
-            )
-
-            output = chat_completion.choices[0].message.content
-            return output
-        except Exception as e:
-            print(e)
-            tries += 1
-
-def split_documents(documents, file_name_list, max_chunk_size=2000):
+def split_documents(documents):
     """
     Split a list of documents into chunks of sentences.
     Each chunk comprises of sentences and the total character count is close to 'max_chunk_size'.
