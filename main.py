@@ -18,13 +18,9 @@ import nltk
 from nltk.tokenize import sent_tokenize
 from flask import Flask, request, jsonify
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-<<<<<<< HEAD
 from llm import llm_chat, message as llm_message
 from knowledge_sources.google import search, search_google
 from utils.compression import compress_against_query
-=======
-from llm import llm_chat, message as llm_message, MODEL_GPT35TURBO, MODEL_GPT4TURBO, MODEL_LLAMA, MODEL_MISTRAL, MODEL_AIRBOROS
->>>>>>> d5850ea5335f095d6ac3c5b18b993c15469d5dad
 
 #cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
 #mpnet = SentenceTransformer('sentence-transformers/all-mpnet-base-v2')
