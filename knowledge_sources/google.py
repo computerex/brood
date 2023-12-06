@@ -4,12 +4,18 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import re
 import requests
+import os
+import json
+
+env = json.loads(open('.env.json').read())
+# apply env to os.environ
+for key in env:
+    os.environ[key] = env[key]
+
+api_key = os.environ['GOOGLE_CLOUD_API_KEY']
+cse_id = os.environ['GOOGLE_CLOUD_CSE_ID']
 
 def search_google(search_phrase, top_k):
-    # Your API key and custom search engine ID goes here
-    api_key = 'AIzaSyCN31Tq0qs_c7xpyP0YLYVJJ1jfzlxecEU'
-    cse_id = '9067fddd2d1714aa1'
-
     # Build a service object for interacting with the API
     service = build("customsearch", "v1", developerKey=api_key)
 

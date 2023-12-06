@@ -22,6 +22,14 @@ from llm import llm_chat, message as llm_message
 from knowledge_sources.google import search, search_google
 from utils.compression import compress_against_query
 
+# set TOKENIZERS_PARALLELISM to false to avoid warnings
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
+
+env = json.loads(open('.env.json').read())
+# apply env to os.environ
+for key in env:
+    os.environ[key] = env[key]
+
 #cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
 #mpnet = SentenceTransformer('sentence-transformers/all-mpnet-base-v2')
 #minilm = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
@@ -85,11 +93,12 @@ def get_api_creds_from_model(model):
 def synthesize_answer_from_doc(query, doc, model, max_tokens=300, temperature=0, system_message='You are an AI Assistant.'):
     api_key, api_base = get_api_creds_from_model(model)
     PROMPT = \
-    f"""Answer the question below using the provided information. If you are completely unsure of the answer, be as helpful as possible by informing the user of what you know, but don't make up unsupported facts.
+    f"""Answer the question below using the Google search results provided. If no answer is found, explain in detail how the results
+    don't answer the question.
 
-BEGIN CONTEXT
+BEGIN SEARCH RESULTS
 {doc}
-END CONTEXT
+END SEARCH RESULTS
 
 {query}
 
